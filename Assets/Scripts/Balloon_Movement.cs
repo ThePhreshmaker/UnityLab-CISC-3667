@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Balloon_Movement : MonoBehaviour
@@ -120,6 +121,11 @@ public class Balloon_Movement : MonoBehaviour
         if (movementLR < 0 && isFacingRight || movementLR > 0 && !isFacingRight)
             Flip();
         Movement();
+        CheckSize();
+    }
+
+    void CheckSize()
+    {
         if (theScale.x >= 2.0f)
         {
             Destroy(gameObject);
@@ -128,6 +134,7 @@ public class Balloon_Movement : MonoBehaviour
 
         }
     }
+
     void Flip()
     {
         transform.Rotate(0, 180, 0);
@@ -182,6 +189,7 @@ public class Balloon_Movement : MonoBehaviour
             transform.position += currentVelocity * Time.deltaTime;
             
         }
+        CheckSize();
     }
 
     //This method will control balloon vertical movement. Once balloon reaches edge, it will move up/down 1.0 unit
@@ -210,9 +218,11 @@ public class Balloon_Movement : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        AudioSource.PlayClipAtPoint
-        AudioSource.PlayClipAtPoint(audioPop.clip, transform.position);
-        StartCoroutine(DestroyBalloon());
+        if (collision.gameObject.tag == "Fire")
+        {
+            AudioSource.PlayClipAtPoint(audioPop.clip, transform.position);
+            StartCoroutine(DestroyBalloon());
+        }
         
     }
 

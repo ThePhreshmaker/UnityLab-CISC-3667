@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
     private float nextFire = 0.5f;
     private float myTime = 0.0f;
     private float fireDelta = 0.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,8 @@ public class Spawner : MonoBehaviour
     }
 
     // Update is called once per frame
+    // The following code prevents the spawner from repeatedly trying to spawn a fireball
+    // when fire button is held down for a certain amount of time
     void Update()
     {
         myTime = myTime + Time.deltaTime;
@@ -31,8 +34,6 @@ public class Spawner : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if (Input.GetButton("Fire1"))
-            //Spawn();
     }
     void Spawn()
     {
@@ -44,4 +45,6 @@ public class Spawner : MonoBehaviour
         Instantiate(fireball, position, Quaternion.identity);
 
     }
+
+
 }
