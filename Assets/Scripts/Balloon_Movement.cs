@@ -82,11 +82,11 @@ public class Balloon_Movement : MonoBehaviour
         movementUD = moveFactorUD;
         if (level == 1)
         {
-            speed = 10;
+            speed = 7;
         }
         else if (level == 2)
         {
-            speed = 15;
+            speed = 12;
         }
         else if (level  == 3)
         {
@@ -101,16 +101,19 @@ public class Balloon_Movement : MonoBehaviour
         if (level == 1)
         {
             EasyMovement();
+            CheckSize();
         }
         else if (level == 2)
         {
             EasyMovement();
             VerticalMovement();
+            CheckSize();
         }
         else if (level == 3)
         {
             FleeingMovement();
             checkBoundsOnHard();
+            CheckSize();
         }
 
     }
@@ -121,12 +124,12 @@ public class Balloon_Movement : MonoBehaviour
         if (movementLR < 0 && isFacingRight || movementLR > 0 && !isFacingRight)
             Flip();
         Movement();
-        CheckSize();
+
     }
 
     void CheckSize()
     {
-        if (theScale.x >= 2.0f)
+        if (theScale.x >= 1.0f)
         {
             Destroy(gameObject);
             scorekeeper.GetComponent<Scorekeeper>().ZeroScore();
@@ -189,7 +192,6 @@ public class Balloon_Movement : MonoBehaviour
             transform.position += currentVelocity * Time.deltaTime;
             
         }
-        CheckSize();
     }
 
     //This method will control balloon vertical movement. Once balloon reaches edge, it will move up/down 1.0 unit
@@ -220,6 +222,7 @@ public class Balloon_Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Fire")
         {
+            CancelInvoke();
             AudioSource.PlayClipAtPoint(audioPop.clip, transform.position);
             StartCoroutine(DestroyBalloon());
         }
@@ -259,4 +262,5 @@ public class Balloon_Movement : MonoBehaviour
         theScale.y += .01f;
         transform.localScale = theScale;
     }
+
 }
